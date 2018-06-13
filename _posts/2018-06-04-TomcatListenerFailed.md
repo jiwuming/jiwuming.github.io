@@ -12,7 +12,6 @@ date: 2018-06-04
 [2018-06-04 04:20:16,986] Artifact :war exploded: Error during artifact deployment. See server log for details.
 ```
 大概意思是说一个或者多个 listener 启动失败, 然后让我去 web 容器下面去寻找错误日志? 有点拐弯抹角的感觉啊...
-![](/img/???.jpeg)
 <!-- more -->
 那就去找吧, 首先打开我本地的 tomcat 的 work 文件夹, 这里面是没有任何文件的。那么项目到底发布到哪里去了呢? 后来我在网上查了一下, 目录是这个样子的
 ```bash
