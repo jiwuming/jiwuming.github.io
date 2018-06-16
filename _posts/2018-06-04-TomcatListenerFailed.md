@@ -12,11 +12,12 @@ date: 2018-06-04
 [2018-06-04 04:20:16,986] Artifact :war exploded: Error during artifact deployment. See server log for details.
 ```
 大概意思是说一个或者多个 listener 启动失败, 然后让我去 web 容器下面去寻找错误日志? 有点拐弯抹角的感觉啊...
-<!-- more -->
 那就去找吧, 首先打开我本地的 tomcat 的 work 文件夹, 这里面是没有任何文件的。那么项目到底发布到哪里去了呢? 后来我在网上查了一下, 目录是这个样子的
 ```bash
 /Users/你的用户名/Library/Caches/IntelliJIdea2018.1
 ```
+
+<!-- more -->
 这个文件夹下面有很多项目, 是以你 tomcat 的名字 + 下划线 + 你的工程的名字命名的。找到刚才写的工程, 工程下面会有三个文件夹:
 ![](/img/tomcatloglocation.png)
 选中的localhost文件中会有我们刚才报错的具体记录:
@@ -30,3 +31,25 @@ date: 2018-06-04
 <context:property-placeholder location="classpath:db.properties" />
 ```
 改过之后就可以正常运行了。也算是顺便复习了一下`classpath:`__加载编译之后的classes目录下的文件__
+
+如果项目是用maven创建的项目可以通过maven的配置文件来配置把什么资源文件复制到编译之后的classes目录下面
+```bash
+<build>
+ <resources>
+        <resource>
+            <directory>src/main/java</directory>
+            <includes>
+                <include>**/*.xml</include>
+            </includes>
+            <filtering>true</filtering>
+        </resource>
+        <resource>
+            <directory>src/main/resources</directory>
+            <includes>
+                <include>**/*.xml</include>
+                <include>**/*.properties</include>
+            </includes>
+        </resource>
+    </resources>
+</build>
+```
