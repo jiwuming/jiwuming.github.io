@@ -32,6 +32,9 @@ date: 2018-06-01
 然后看工程的左下角:
 ![](/img/entry.png)
 如果这个选项没有的话, 也可以在 View->Tool Windows 中找到
+如果 View->Tool Windows 也没有的话, 右键工程总目录文件夹, 然后有个 Add Framework Support 点击
+![](/img/addframeworksupport.png)
+之后ok就可以了, 如果有这个按钮就走下面的操作:
 点击了 By Database Schema 之后会出现下面的页面:
 ![](/img/choosetable.png)
 选择好包路径之后, 这个时候选择你想要生成的表点击确定即可生成实体类了, 并且会自动帮你在 hibernate.cfg.xml 中配置好mapping。
