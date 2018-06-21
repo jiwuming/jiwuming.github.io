@@ -1,5 +1,5 @@
 ---
-title: 巨坑的错误之javax.persistence.TransactionRequiredException:no transaction is in progress
+title: javax.persistence.TransactionRequiredException:no transaction is in progress
 tags: [Spring, Hibernate]
 date: 2018-06-20
 ---
@@ -99,21 +99,20 @@ javax.persistence.TransactionRequiredException:no transaction is in progress
 
     <!-- 定义事务传播属性 -->
     <tx:attributes>
-            <tx:method name="insert*" propagation="REQUIRED" rollback-for="Exception" />
-            <tx:method name="update*" propagation="REQUIRED" rollback-for="Exception"/>
-            <tx:method name="upd*" propagation="REQUIRED" rollback-for="Exception"/>
-            <tx:method name="edit*" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="insert*" propagation="REQUIRED" rollback-for="Exception" read-only="false"/>
+            <tx:method name="upd*" propagation="REQUIRED" rollback-for="Exception" read-only="false"/>
+            <tx:method name="edit*" propagation="REQUIRED" rollback-for="Exception" read-only="false"/>
             <tx:method name="save*" propagation="REQUIRED" rollback-for="Exception" read-only="false"/>
             <tx:method name="add*" propagation="REQUIRED" rollback-for="Exception" read-only="false"/>
-            <tx:method name="query*" propagation="REQUIRED" />
+            <tx:method name="query*" propagation="REQUIRED" rollback-for="Exception"/>
             <tx:method name="new*" propagation="REQUIRED" rollback-for="Exception"/>
             <tx:method name="set*" propagation="REQUIRED" rollback-for="Exception"/>
-            <tx:method name="remove*" propagation="REQUIRED" rollback-for="Exception"/>
-            <tx:method name="delete*" propagation="REQUIRED" rollback-for="Exception"/>
-            <tx:method name="del*" propagation="REQUIRED" rollback-for="Exception"/>
-            <tx:method name="change*" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="remove*" propagation="REQUIRED" rollback-for="Exception" read-only="false"/>
+            <tx:method name="delete*" propagation="REQUIRED" rollback-for="Exception" read-only="false"/>
+            <tx:method name="del*" propagation="REQUIRED" rollback-for="Exception" read-only="false"/>
+            <tx:method name="change*" propagation="REQUIRED" rollback-for="Exception" read-only="false"/>
             <tx:method name="check*" propagation="REQUIRED" rollback-for="Exception"/>
-            <tx:method name="*" propagation="SUPPORTS" read-only="false"/>
+            <tx:method name="*" propagation="SUPPORTS" read-only="true"/>
         </tx:attributes>
     </tx:advice>
 
