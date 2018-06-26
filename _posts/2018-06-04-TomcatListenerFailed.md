@@ -32,7 +32,7 @@ date: 2018-06-04
 ```
 改过之后就可以正常运行了。也算是顺便复习了一下`classpath:`__加载编译之后的classes目录下的文件__
 
-如果项目是用maven创建的项目可以通过maven的配置文件来配置把什么资源文件复制到编译之后的classes目录下面
+如果项目是用maven创建的项目可以通过maven的配置文件来配置把什么资源文件复制到编译之后的classes目录下面 这里演示的是xml
 ```bash
 <build>
  <resources>
@@ -43,14 +43,13 @@ date: 2018-06-04
             </includes>
             <filtering>true</filtering>
         </resource>
-        <!-- IDEA 版本不同谨慎添加 否则会造成resources文件不会被编译 classes目录下没有任何配置文件的问题 -->
-        ~~<resource>
+        <resource>
             <directory>src/main/resources</directory>
             <includes>
                 <include>**/*.xml</include>
                 <include>**/*.properties</include>
             </includes>
-        </resource>~~
+        </resource>
     </resources>
 </build>
 ```
