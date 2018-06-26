@@ -43,13 +43,14 @@ date: 2018-06-04
             </includes>
             <filtering>true</filtering>
         </resource>
-        <resource>
+        <!-- IDEA 版本不同谨慎添加 否则会造成resources文件不会被编译 classes目录下没有任何配置文件的问题 -->
+        ~~<resource>
             <directory>src/main/resources</directory>
             <includes>
                 <include>**/*.xml</include>
                 <include>**/*.properties</include>
             </includes>
-        </resource>
+        </resource>~~
     </resources>
 </build>
 ```
