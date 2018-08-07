@@ -5,7 +5,7 @@ date: 2018-08-05
 ---
 由于最近需要开发的工程有多个环境, 又是企业式发布 app 到 fir 上, 每次打一个包实在是太麻烦了, 而且需要不停的更换证书和描述文件, 所以决定把打包操作用 shell 执行。记录一下操作过程。
 
-我目前的 app 是有三个环境的, 一个是开发环境, 另一个是 UAT 环境, 剩下的一个就是生产环境了。由于开发环境和生产环境我们可以用 Debug 和 Release 来区分, 所以我们只要多配置一个 UAT 环境的就可以了。
+我目前的 app 是有三个环境的(后来又多了一个...), 一个是开发环境, 另一个是 UAT 环境, 剩下的一个就是生产环境了。由于开发环境和生产环境我们可以用 Debug 和 Release 来区分, 所以我们只要多配置一个 UAT 环境的就可以了。
 
 首先先建立一个 configurations 我这里叫 WM_UAT
 ![](/img/wm-proj-confg.png)
@@ -72,49 +72,73 @@ Come on - You can access any folder using the "Finder".
 
 最后, archive.sh的代码
 ```bash
-#创建打包ipa的目录
+#创建目录
+
 if [ ! -d ./ipaPackage ];
 then
 mkdir -p ipaPackage;
 fi
-project_path=工程的绝对路径
-project_name=ipa的名字targets叫啥名这里就叫啥
-scheme_name=scheme的名称
-development_mode=打包模式 Debug Release other... 这里不写也行因为后面会改掉
-#打包工程要先编译, 这里配置的是编译路径
+
+#工程绝对路径
+project_path=XXX
+
+#工程名 将XXX替换成自己的工程名
+project_name=wm
+
+#scheme名 将XXX替换成自己的sheme名
+scheme_name=wm
+
+#build文件夹路径
 build_path=${project_path}/build
+
 #导出.ipa文件所在路径
 exportIpaPath=${project_path}/ipaPackage/${development_mode}
 
-echo "要打生产的包还是UAT的包? [1:生产 2:UAT] 输入数字之后按回车"
 
+echo "请选择打包类型 [1:生产 2:UAT 3:开发 4:总部助手] 输入数字之后按回车"
+
+##
 read number
-while([[ $number != 1 ]] && [[ $number != 2 ]])
+while([[ $number != 1 ]] && [[ $number != 2 ]] && [[ $number != 4 ]] && [[ $number != 3 ]])
 do
-echo "请输入数字1或2"
-echo "要打生产的包还是UAT的包? [1:生产 2:UAT] 输入数字之后按回车"
+echo "请输入数字1或2或3"
+echo "请选择打包类型 [1:生产 2:UAT 3:开发 4:总部助手] 输入数字之后按回车"
 read number
 done
 
 if [ $number == 1 ];then
-#更换打包模式
+#打包模式 Release
 development_mode=Release
 #打包配置文件路径
 exportOptionsPlistPath=${project_path}/ExportOptions.plist
 echo '准备打包生产...'
-else
-#更换打包模式
+elif [ $number == 2 ];then
+#打包模式 WM_UAT
 development_mode=WM_UAT
 #打包配置文件路径
 exportOptionsPlistPath=${project_path}/ExportOptionsUAT.plist
 echo '准备打包UAT...'
+elif [ $number == 3 ];then
+#打包模式 Debug
+development_mode=Debug
+#打包配置文件路径
+exportOptionsPlistPath=${project_path}/ExportOptionsDebug.plist
+echo '准备打包开发...'
+else
+#打包模式 WM_ZB
+development_mode=WM_ZB
+#打包配置文件路径
+exportOptionsPlistPath=${project_path}/ExportOptionsZB.plist
+echo '准备打包总部助手...'
 fi
 
+echo '正在清理工程...'
 xcodebuild \
 clean -configuration ${development_mode} -quiet  || exit
 
-echo '正在编译工程:'${development_mode}
+echo '清理完成'
 
+echo '正在编译工程:'${development_mode}
 xcodebuild \
 archive -workspace ${project_path}/${project_name}.xcworkspace \
 -scheme ${scheme_name} \
@@ -122,8 +146,8 @@ archive -workspace ${project_path}/${project_name}.xcworkspace \
 -archivePath ${build_path}/${project_name}.xcarchive  -quiet  || exit
 
 echo '编译完成'
-echo '开始ipa打包...'
 
+echo '开始ipa打包...'
 xcodebuild -exportArchive -archivePath ${build_path}/${project_name}.xcarchive \
 -configuration ${development_mode} \
 -exportPath ${exportIpaPath} \
@@ -132,16 +156,30 @@ xcodebuild -exportArchive -archivePath ${build_path}/${project_name}.xcarchive \
 -quiet || exit
 
 if [ -e $exportIpaPath/$scheme_name.ipa ]; then
-echo 'ipa导出完成'
+echo 'ipa包已导出'
 open $exportIpaPath
 else
-echo 'ipa导出失败!'
+echo 'ipa包导出失败'
 fi
+echo '打包ipa完成'
 
-# fir上传 这里自动上传我只配置了UAT环境的
 if [ $number == 2 ];then
-fir login -T 这里填写fir的api_token
+# UAT环境
+# 登录需要Fir平台的token
+fir login -T xxx
 fir publish $exportIpaPath/$scheme_name.ipa
+elif [ $number == 3 ];then
+# 开发环境
+# 登录需要Fir平台的token
+fir login -T xxx
+fir publish $exportIpaPath/$scheme_name.ipa
+elif [ $number == 4 ];then
+# 总部助手
+# 登录需要Fir平台的token
+fir login -T xxx
+fir publish $exportIpaPath/$scheme_name.ipa
+else
+echo '生产环境请手动上传'
 fi
 
 ```
