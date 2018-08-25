@@ -1,5 +1,5 @@
 ---
-title: 使用 xcodebuild 命令打包与 fir-cli 自动发布项目
+title: 使用 Xcode build 命令打包与 fir-cli 自动发布项目
 tags: [Terminal]
 date: 2018-08-05
 ---
@@ -63,10 +63,10 @@ It is most probably because I was playing with my /usr/bin permissions the other
 The fix is easy. Just delete the "/usr/bin/login" dir.
 But how do I delete it, if I can't access the "Terminal" altogether ?
 Come on - You can access any folder using the "Finder".
->1. Open "Finder"
->2. Open "Go To Folder"
->3. Type "/usr/bin/login"
->4. Delete it.
+1. Open "Finder"
+2. Open "Go To Folder"
+3. Type "/usr/bin/login"
+4. Delete it.
 
 开搞之前记得先备份...
 
