@@ -82,10 +82,10 @@ fi
 #工程绝对路径
 project_path=XXX
 
-#工程名 将XXX替换成自己的工程名
+#工程名
 project_name=wm
 
-#scheme名 将XXX替换成自己的sheme名
+#scheme名
 scheme_name=wm
 
 #build文件夹路径
@@ -101,7 +101,7 @@ echo "请选择打包类型 [1:生产 2:UAT 3:开发 4:总部助手] 输入数�
 read number
 while([[ $number != 1 ]] && [[ $number != 2 ]] && [[ $number != 4 ]] && [[ $number != 3 ]])
 do
-echo "请输入数字1或2或3"
+echo "请输入数字1或2或3或4"
 echo "请选择打包类型 [1:生产 2:UAT 3:开发 4:总部助手] 输入数字之后按回车"
 read number
 done
@@ -133,12 +133,13 @@ echo '准备打包总部助手...'
 fi
 
 echo '正在清理工程...'
+
 xcodebuild \
 clean -configuration ${development_mode} -quiet  || exit
 
 echo '清理完成'
-
 echo '正在编译工程:'${development_mode}
+
 xcodebuild \
 archive -workspace ${project_path}/${project_name}.xcworkspace \
 -scheme ${scheme_name} \
@@ -146,8 +147,8 @@ archive -workspace ${project_path}/${project_name}.xcworkspace \
 -archivePath ${build_path}/${project_name}.xcarchive  -quiet  || exit
 
 echo '编译完成'
-
 echo '开始ipa打包...'
+
 xcodebuild -exportArchive -archivePath ${build_path}/${project_name}.xcarchive \
 -configuration ${development_mode} \
 -exportPath ${exportIpaPath} \
@@ -165,17 +166,17 @@ echo '打包ipa完成'
 
 if [ $number == 2 ];then
 # UAT环境
-# 登录需要Fir平台的token
+# xxx登录需要Fir平台的token
 fir login -T xxx
 fir publish $exportIpaPath/$scheme_name.ipa
 elif [ $number == 3 ];then
 # 开发环境
-# 登录需要Fir平台的token
+# xxx登录需要Fir平台的token
 fir login -T xxx
 fir publish $exportIpaPath/$scheme_name.ipa
 elif [ $number == 4 ];then
 # 总部助手
-# 登录需要Fir平台的token
+# xxx登录需要Fir平台的token
 fir login -T xxx
 fir publish $exportIpaPath/$scheme_name.ipa
 else
