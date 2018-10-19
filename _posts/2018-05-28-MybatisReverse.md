@@ -14,10 +14,15 @@ date: 2018-05-28
     <artifactId>mybatis-generator-core</artifactId>
     <version>1.3.2</version>
 </dependency>
-<dependency>
+ <dependency>
     <groupId>mysql</groupId>
     <artifactId>mysql-connector-java</artifactId>
-    <version>5.1.34</version>
+    <version>8.0.11</version>
+</dependency>
+<dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis</artifactId>
+    <version>3.4.6</version>
 </dependency>
 ```
 <!-- more -->
@@ -27,10 +32,10 @@ date: 2018-05-28
     <artifactId>mybatis-generator-maven-plugin</artifactId>
     <version>1.3.2</version>
     <dependencies>
-        <dependency>
+         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.34</version>
+            <version>8.0.11</version>
         </dependency>
     </dependencies>
     <configuration>
@@ -49,16 +54,16 @@ date: 2018-05-28
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
     <context id="test" targetRuntime="MyBatis3">
-        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"></plugin>
-        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
-        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/ >
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
         <commentGenerator>
             <property name="suppressDate" value="true" />
             <!-- 是否去除自动生成的注释 -->
             <property name="suppressAllComments" value="true" />
         </commentGenerator>
         <!--数据库链接URL，用户名、密码 -->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
                         connectionURL="jdbc:mysql:///mybatis"
                         userId="root"
                         password="123456">
@@ -86,7 +91,7 @@ date: 2018-05-28
         </javaClientGenerator>
 
         <!-- 要生成哪些表 domainObjectName: 实体类 -->
-        <table tableName="`items`" domainObjectName="Items"></table>
+        <table tableName="items" domainObjectName="Items"></table>
     </context>
 </generatorConfiguration>
 ```
