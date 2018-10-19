@@ -90,8 +90,9 @@ date: 2018-05-28
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <!-- 要生成哪些表 domainObjectName: 实体类 -->
-        <table tableName="items" domainObjectName="Items"></table>
+        <!-- 要生成哪些表 domainObjectName: 实体类 是否生成example这里选择不生成-->
+        <table tableName="items" domainObjectName="Items" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+    enableSelectByExample="false" selectByExampleQueryId="false"></table>
     </context>
 </generatorConfiguration>
 ```
