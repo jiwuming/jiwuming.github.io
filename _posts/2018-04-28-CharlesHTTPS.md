@@ -19,6 +19,14 @@ date: 2018-04-28
 
 ![](/img/charles-port.png)
 
+设置ssl
+![](/img/charlesssl.png)
+![](charlessslset.png)
+
+设置Access Control
+![](/img/charlessaddress.png)
+![](/img/charlessaddressset.png)
+
 然后用手机连上工作的网络，确保手机和电脑是在同一个区域网内，并配置手机的HTTP代理： 
 
 ![](/img/charles-phonedelegate.PNG)
