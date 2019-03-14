@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_END
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:str message:@"" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         // 回调给js
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"原生回调"];
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"回调"];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:jsParams.callbackId];
     }];
     [alert addAction:action];
