@@ -52,3 +52,17 @@ GCC_PREPROCESSOR_DEFINITIONS = DEBUG=1
 之后就是极光推送收不到的问题, 我用我新建的工程是可以收到推送的, 但是生成的 Cordova 中却怎么也收不到, 需要设置这里:
 ![](/img/pushnotwork.jpg)
 这里原来的选项是`New Build System`, 改成`Legacy Build System`, 删掉手机中的工程, 重新运行, 问题解决~
+
+```js
+// 顺便贴一下安卓安装第三方库找不到的问题
+app/build.gradle
+dependencies {
+    // implementation fileTree(dir: 'libs', include: '*.jar')
+    // 上面这个z👆替换成下面这个👇
+    implementation fileTree(include: ['*.jar','*.so'], dir: 'libs')
+    // SUB-PROJECT DEPENDENCIES START
+    implementation(project(path: ":CordovaLib"))
+    implementation "com.android.support:support-annotations:27.+"
+    // SUB-PROJECT DEPENDENCIES END
+}
+```
