@@ -52,11 +52,11 @@ sudo npm install -g ios-deploy --unsafe-perm=true --allow-root
 
 第二个问题: 
 
-我是使用的 Angular 开发的前端, 在打包完放进 www 目录之后前端是一片空白~ 在 vConsole 中观察 `<approot></approot>` 中的标签没有渲染出来, 所以怀疑是因为目录的问题js并没有被执行。这个时候也是借助了这个插件()
+我是使用的 Angular 开发的前端, 在打包完放进 www 目录之后前端是一片空白~ 在 vConsole 中观察 `<approot></approot>` 中的标签没有渲染出来, 所以怀疑是因为目录的问题js并没有被执行。这个时候也是借助了下面两个插件()
 ```bash
 cordova plugin add cordova-plugin-ionic-webview
 ```
-顺便安装了这个(访问远程网站的)
+(动态调试的, 使用远程调试时, 只要前端`Ctrl + S`, app就会立刻更新前端页面)
 ```bash
 cordova plugin add cordova-plugin-remote-injection
 ```

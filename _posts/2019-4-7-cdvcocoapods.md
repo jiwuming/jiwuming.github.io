@@ -49,6 +49,8 @@ GCC_PREPROCESSOR_DEFINITIONS = DEBUG=1
 还有两个问题 一个是 Cordova 貌似对 `#DEBUG` 这种宏命令不支持 可以通过这个解决 在`Build Setting`中:
 ![](/img/cdvdebugparams.jpg)
 
+还有可能出现`weakself`报错的问题, 在`Build Setting`中找到`C Language Dialect`, 将`C99`改为`GNU99`
+
 之后就是极光推送收不到的问题, 我用我新建的工程是可以收到推送的, 但是生成的 Cordova 中却怎么也收不到, 需要设置这里:
 ![](/img/pushnotwork.jpg)
 这里原来的选项是`New Build System`, 改成`Legacy Build System`, 删掉手机中的工程, 重新运行, 问题解决~
