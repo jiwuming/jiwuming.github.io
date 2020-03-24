@@ -36,7 +36,7 @@ react-native run-ios
 ```
 接下来就可以用自己喜欢的编辑器去写代码了
 
-### 不过我个人更喜欢 IDE 开发, 现在我把它放到 WS IDE 中来:
+不过我个人更喜欢 IDE 开发, 现在我把它放到 WS IDE 中来:
 
 创建工程的方法是一样的, cd 到你想创建工程的目录 然后 `react-native init projectName` 等到它创建完毕之后 用 WS 打开这个目录, 效果大概是这样的
 ![](/img/IMG-RN-DEV/Rn_dir.png)
@@ -70,23 +70,24 @@ npm start --reset-cache
 安卓配置开发环境按照[ReactNative 中文网](http://reactnative.cn/docs/0.41/getting-started.html)上那样把 AndroidStudio 配置好就行了, 模拟器方面我选择的是 Genymotion 他还需要 VirtualBox 虚拟机的支持, 和官网上不一样的是: 我刚下下来的 Genymotion 自带了一个手机模拟器, 但是怎么也运行不起来, 一直提示网络配置有问题, 后来我把这个手机模拟器从 Genymotion 中删除了, 又从 Genymotion 里面下载了一个新的模拟器, 直接运行就可以了  
 ![](/img/Rn_android.png)
 
-### 接下来看代码部分
+接下来看代码部分
 
 如果我们的 WS 上没有装任何插件的话, 打开 RN 的工程将会有成吨的警告, 去掉警告的方法就是安装 React 的插件并修改 js 语法标准为 JSX:
 
-#### 1.用 command + , 调出偏好设置 然后找到Languages & Frameworks->JavaScript->Libraries
+1.用 command + , 调出偏好设置 然后找到Languages & Frameworks->JavaScript->Libraries
 ![](/img/IMG-RN-DEV/Rn_React_Setting.png)
 如果 WS 中没有 react 和 react-native 那两项需要点击右面的 Download 来下载
 ![](/img/IMG-RN-DEV/Rn_ReactPlugin_Download.png)
 因为这里已经下载完了 所以第一个结果是不是 react (一般都是第一个结果) 选中之后点击 Download and Install 安装, 然后再像上面那样勾选 `react-DefinitelyTyped` 和 `react-native-DefinitelyTyped`, 然后点击 ok
-#### 2.然后让 JavaScript 文件支持 JSX 语法, 还是 command + , 调出偏好设置 然后:
+
+2.然后让 JavaScript 文件支持 JSX 语法, 还是 command + , 调出偏好设置 然后:
 ![](/img/IMG-RN-DEV/Rn_Select_JSX.png)
 其实这样代码中的警告就已经去除一大半了, 但是工程里面免不了的有一些拼写错误, 可以通过此方法去掉:
 ![](/img/IMG-RN-DEV/Rn_Spell.png)
 如果你写 js 不喜欢写分号 但是 IDE 又报警告时 在设置中搜索 __unterminated statement__ 然后把勾去掉就可以了 (但是官方的代码貌似都是带分号的):
 ![](/img/IMG-RN-DEV/Rn_Warning.png)
 
-#### 最后的就是调试部分了
+最后的就是调试部分了
 
 如果你在代码上做了一些改动的话, 点击模拟器按下 command + r (iOS), 双击 r (Android) 来刷新最新的结果
 
