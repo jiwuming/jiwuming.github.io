@@ -104,4 +104,10 @@ struct objc_class {
 5. 实例方法中可以调用实例方法
 6. 实例方法也可以调用类方法(通过类名)
 
-# 10.
+# 10.能否想编译后的类中添加实例变量 运行时呢?
+> 不能向编译后的类中添加实例变量 运行时可以
+> 因为编译后的类已经在`runtime`中注册类结构体中的实例变量链表`objc_Ivar_list`和实例变量内存`instance_size`大小已确定
+
+> 运行时可以添加但的在类被创建但还没有向`runtime`注册之前`objc_allocateClassPair` - `objc_registerClassPair`区间内
+
+# 11.
