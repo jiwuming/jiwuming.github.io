@@ -13,4 +13,5 @@ https://blog.csdn.net/nino/article/details/104778375?utm_medium=distribute.pc_re
 模板配置https://www.cnblogs.com/senzjx/archive/2009/09/21/1570950.html
 
 代码格式化: shift+command+f
+代码自动提示
 
