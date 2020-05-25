@@ -3,7 +3,8 @@ title: Hibernate的逆向工程操作
 tags: [Maven, Intellij IDEA]
 date: 2018-06-01
 ---
-写完了 Mybaits 的逆向操作也来写一下 Hibernate 的逆向工程操作吧, 免得以后忘记步骤再去网上查了...
+写完了 Mybaits 的逆向操作也来写一下 Hibernate 的逆向工程操作吧, 
+虽然这个库以后几乎不能用到了...
 
 首先创建一个工程, 导入 Hibernate jar 包和注解包, 以及编写 hibernate.cfg.xml 文件
 ![](/img/hibernateStart.png)

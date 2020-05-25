@@ -1,7 +1,7 @@
 ---
 title: 使用Charles抓HTTPS的包
 tags: [iOS, Swift]
-date: 2018-04-28
+date: 2018-04-12
 ---
 又开始写新的项目了，这次的项目是用修改本地hosts去实现开发环境，测试环境和生产环境的切换的，然后使用到了Charles来抓取获取HTTPS的数据，Charles获取HTTP数据很简单，但是没经过配置获取HTTPS的数据是有乱码或者看不到的，记录一下解决HTTPS抓包的过程。
 ![](/img/charlesLunching.png)

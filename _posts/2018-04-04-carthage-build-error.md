@@ -1,7 +1,7 @@
 ---
 title: Carthage Build 失败的问题 
 tags: [Terminal]
-date: 2018-5-4
+date: 2018-04-04
 ---
 大概情况类似这样
 ```bash

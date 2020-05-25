@@ -1,7 +1,7 @@
 ---
 title: Mac 终端修改了.bash_profile之后终端命令无法使用的问题 
 tags: [Terminal]
-date: 2018-04-28
+date: 2017-04-28
 ---
 可能是由于我修改了.bash_profile文件的问题，我的终端什么命令都无法执行了。。。类似这样
 ```bash

@@ -1,7 +1,7 @@
 ---
 title: ReactNative ScrollView
 tags: [ReactNative]
-date: 2017-03-01
+date: 2017-02-16
 ---
 
 这次做的 RN 的 Demo 是一个轮播图, 其中主要是 ScrollView 的使用, 模块导入, 样式封装等, 记录一下学习过程<!--more-->

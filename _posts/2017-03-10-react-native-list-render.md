@@ -1,7 +1,7 @@
 ---
 title: ReactNative ListView 更改 renderRow 样式的问题
 tags: [ReactNative]
-date: 2017-05-10
+date: 2017-03-10
 ---
 
 最近开始用 RN 来写项目了, 记录一下今天使用 ListView 中的一个坑

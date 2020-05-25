@@ -409,7 +409,7 @@ changyan:
 
 # Support for gitalk comments system.
 gitalk:
-  enable: true
+  enable: false
   clientID: 555538177e8a13135439
   clientSecret: be12041c06fb799aad8dbfd1cb3c5c748758c8ac
   repo: jiwuming.github.io

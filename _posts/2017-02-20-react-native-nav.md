@@ -1,7 +1,7 @@
 ---
 title: ReactNative Navigator
 tags: [ReactNative]
-date: 2017-03-10
+date: 2017-02-20
 ---
 
 再来了解一下 RN 中的导航控制器 Navigator 这部分内容包括页面的跳转, 传值, 回调等. 记录一下使用方法.
