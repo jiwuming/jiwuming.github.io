@@ -33,3 +33,4 @@ NSBlockOperation *blockOperation = [NSBlockOperation blockOperationWithBlock:^{
 <NSThread: 0x2804b5cc0>{number = 1, name = main}
 ```
 可以看到, 在直接使用`NSInvocationOperation`或`NSBlockOperation`时, 它们都是运行在主线程之上的。
+既然`NSOperation`是一个抽象类, 我们不妨自己实现一个,
