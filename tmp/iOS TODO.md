@@ -51,3 +51,7 @@ swift class func 和 static func
 
 cocoapods github 443
 
+
+xcode排序错乱问题 https://www.jianshu.com/p/d3827b515e15
+
+autoreleasepool 一般用于产生临时变量很多的位置, 比如sdwebimage的磁盘读取缓存, 他本身要做从nsdata到uiimage的转换

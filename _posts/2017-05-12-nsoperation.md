@@ -195,7 +195,7 @@ end <NSThread: 0x280ab2ec0>{number = 1, name = main}
 ***** 时间11:41:04 GQOperation.m 第37行 *****
 Operation 释放了
 ```
-这样就可以观察到任务的执行状态及所在线程情况, 还是运行在主线程之上的。
+这样就可以观察到任务的执行状态及所在线程情况, 还是运行在主线程之上的, Operation的取消并不能取消已经在运行的Operation。
 
 ## 依赖
 在对剩余的属性及方法进行一波分析:
@@ -416,14 +416,6 @@ NSLog(@"主线程结束");
 ## waitUntilFinished
 之前说还有一部分`NSOperation`的属性和方法没有分析, 其实他们在队列对象中也有类似的方法, 比如`waitUntilFinished`, 他主要是起到一个阻塞当前线程的效果, 等待到完成之后才会执行其他任务:
 ```cpp
-
-@property (readonly, getter=isAsynchronous) BOOL asynchronous API_AVAILABLE(macos(10.8), ios(7.0), watchos(2.0), tvos(9.0));
-@property (readonly, copy) NSArray<NSOperation *> *dependencies;
-@property NSOperationQueuePriority queuePriority;
-@property NSQualityOfService qualityOfService API_AVAILABLE(macos(10.10), ios(8.0), watchos(2.0), tvos(9.0));
-@property (nullable, copy) NSString *name API_AVAILABLE(macos(10.10), ios(8.0), watchos(2.0), tvos(9.0));
-```
-```cpp
 NSLog(@"主线程开始");
 GQOperation *firstOperation = [[GQOperation alloc] init];
 firstOperation.taskBlock = ^{
@@ -467,7 +459,7 @@ NSLog(@"主线程结束");
 ```
 当然, 如果我们不需要异步并发的操作, 可以直接使用`NSOperation`对象, 然后调用这些方法。
 ## queuePriority
-`queuePriority`, 默认创建的任务都是Normal级别, 可以验证一下:
+`queuePriority`, 任务优先级, 默认创建的任务都是Normal级别, 可以验证一下:
 ```cpp
 NSLog(@"主线程开始");
 GQOperation *firstOperation = [[GQOperation alloc] init];
@@ -490,5 +482,7 @@ NSOperationQueue *queue = [[NSOperationQueue alloc] init];
 [queue addOperation:firstOperation];
 NSLog(@"主线程结束");
 ```
+
+其余的待补充...
 
 
