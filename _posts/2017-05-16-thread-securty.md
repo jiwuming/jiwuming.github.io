@@ -1,5 +1,5 @@
 ---
-title: 多线程带来的一些问题
+title: 从SDWebImage看多线程带来的一些问题
 tags: [iOS]
 date: 2017-05-16
 ---
@@ -206,7 +206,7 @@ _downloadQueue = [NSOperationQueue new];
 _downloadQueue.maxConcurrentOperationCount = 6;
 _downloadQueue.name = @"com.hackemist.SDWebImageDownloader";
 ```
-可以看到, `SDWebImage`使用`NSOperationQueue`进行下载, 默认最大并发数为6, 其余的任务都必须要等待之前的任务完成之后再去进行, 这样就不会开辟太多的系统资源, 如果只是下载流程不放置图片的话, 内存的涨幅在1到2M左右(用了14张图片)。
+可以看到, `SDWebImage`使用`NSOperationQueue`进行下载, 默认最大并发数为6, 其余的任务都必须要等待之前的任务完成之后再去进行, 这样就不会开辟太多的系统资源, 如果只是下载流程不放置图片的话, 内存几乎没有涨幅。
 
 # 使用线程安全的对象
 上面描述的仅仅是`SDWebImage`的下载过程, 当然这个框架不局限于做下载过程, 还有缓存的过程, 其步骤分为内存缓存及硬盘缓存, 我们先来探究内存缓存的过程。
@@ -341,4 +341,144 @@ _downloadQueue.name = @"com.hackemist.SDWebImageDownloader";
     return operation;
 }
 ```
-注意观察, 去硬盘查找的过程被套上了`@autoreleasepool`, 这是由于硬盘查找属于I/O操作
+注意观察, 去硬盘查找这一步使用了异步串行队列, 这是由于硬盘查找属于I/O操作, 时间上会慢一些所以使用了异步操作。而下面的查找方法使用了`@autoreleasepool`, 这个是因为`UIImage`与`NSData`的操作都是比较耗费内存的操作, 案例可以参考[这里](https://segmentfault.com/q/1010000006100424/a-1020000006100470), 所以采用`@autoreleasepool`来避免内存达到峰值的情况,
+[有关@autoreleasepool的官方文档](https://developer.apple.com/documentation/foundation/nsautoreleasepool?language=occ)
+文档中提到了:
+
+> The Application Kit creates an autorelease pool on the main thread at the beginning of every cycle of the event loop, and drains it at the end, thereby releasing any autoreleased objects generated while processing an event. If you use the Application Kit, you therefore typically don’t have to create your own pools. If your application creates a lot of temporary autoreleased objects within the event loop, however, it may be beneficial to create “local” autorelease pools to help to minimize the peak memory footprint.
+
+其实`SDWebImage`不止在上述代码中用到了`@autoreleasepool`在`SDWebImageDecoder`这个类中一样也用到了`@autoreleasepool`, 按照`UIImage *diskImage = [self diskImageForKey:key];`这句代码中的方法一步一步点进去就能找到:
+```cpp
+- (nullable UIImage *)diskImageForKey:(nullable NSString *)key {
+    NSData *data = [self diskImageDataBySearchingAllPathsForKey:key];
+    if (data) {
+        UIImage *image = [UIImage sd_imageWithData:data];
+        image = [self scaledImageForKey:key image:image];
+        if (self.config.shouldDecompressImages) {
+            // 这里的性能仍然有问题, 对于大的图片可以使用 [[SDWebImageDownloader sharedDownloader] setShouldDecompressImages:NO];禁用压缩
+            image = [UIImage decodedImageWithImage:image];
+        }
+        return image;
+    }
+    else {
+        return nil;
+    }
+}
+```
+# 线程安全问题
+`SDWebImage`多数使用`@synchronized`来为线程加锁, 使用`dispatch_main_async_safe`的宏定义来进行线程同步,
+```cpp
+#ifndef dispatch_main_async_safe
+#define dispatch_main_async_safe(block)\
+    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_queue())) == 0) {\
+        block();\
+    } else {\
+        dispatch_async(dispatch_get_main_queue(), block);\
+    }
+#endif
+```
+其意义在于保证数据的准确性及UI的主线程操作。我们可以举一个例子, 比如网购的秒杀活动, 要保证库存读取的准确性, 不能出现负数的库存, 我们可以模拟一下这个情况:
+```cpp
+_items = 200;
+NSLog(@"主线程开始");
+dispatch_queue_t queue1 = dispatch_queue_create(NULL, DISPATCH_QUEUE_SERIAL);
+dispatch_queue_t queue2 = dispatch_queue_create(NULL, DISPATCH_QUEUE_SERIAL);
+dispatch_queue_t queue3 = dispatch_queue_create(NULL, DISPATCH_QUEUE_SERIAL);
+dispatch_queue_t queue4 = dispatch_queue_create(NULL, DISPATCH_QUEUE_SERIAL);
+dispatch_queue_t queue5 = dispatch_queue_create(NULL, DISPATCH_QUEUE_SERIAL);
+dispatch_queue_t queue6 = dispatch_queue_create(NULL, DISPATCH_QUEUE_SERIAL);
+
+dispatch_async(queue1, ^{
+    [self buy];
+});
+dispatch_async(queue2, ^{
+    [self buy];
+});
+dispatch_async(queue3, ^{
+    [self buy];
+});
+dispatch_async(queue4, ^{
+    [self buy];
+});
+dispatch_async(queue5, ^{
+    [self buy];
+});
+dispatch_async(queue6, ^{
+    [self buy];
+});
+NSLog(@"主线程结束");
+
+- (void)buy {
+    while (true) {
+        if (_items > 0) {
+            _items--;
+            NSLog(@"%ld, ---- %@", _items, [NSThread currentThread]);
+        } else {
+            break;
+        }
+    }
+    NSLog(@"结束了");
+}
+```
+这里列举了了六个队列抢200件货物的情景, 这样写是因为如果队列比较少的话, 不太好分析线程情况, 有可能只能看到一条线程的执行情况, 需要多次打印才能分析出来, 而200件货物也足够观察打印情况了。我们的目标是:数据读取准确, 不能出现负数, 如果不做任何处理, 上面的打印数据有可能出现这种情况:
+```bash
+***** 时间14:03:47 SDImageLoadViewController.m 第91行 *****
+GQLOG: 150, ---- <NSThread: 0x282179400>{number = 4, name = (null)}
+
+***** 时间14:03:47 SDImageLoadViewController.m 第91行 *****
+GQLOG: 149, ---- <NSThread: 0x282179400>{number = 4, name = (null)}
+
+***** 时间14:03:47 SDImageLoadViewController.m 第91行 *****
+GQLOG: 191, ---- <NSThread: 0x282149f80>{number = 6, name = (null)}
+
+***** 时间14:03:47 SDImageLoadViewController.m 第91行 *****
+GQLOG: 147, ---- <NSThread: 0x282149f80>{number = 6, name = (null)}
+```
+可以看到线程6在第一次读取的时候出现了问题, 本来只剩149件货物了, 但是他读取成了191, 最危险的是像下面这种:
+```bash
+***** 时间14:03:47 SDImageLoadViewController.m 第97行 *****
+GQLOG: 结束了   <NSThread: 0x282178f80>{number = 5, name = (null)}
+
+***** 时间14:03:47 SDImageLoadViewController.m 第91行 *****
+GQLOG: 13, ---- <NSThread: 0x282179400>{number = 4, name = (null)}
+```
+货物已经售罄了, 但是还是读取到了13件, 这也就相当于出现了负数, 那么如何避免这种情况呢? 可以用上面提到的`SDWebImage`的方法:
+```cpp
+- (void)buy {
+    while (true) {
+        @synchronized (self) {
+            if (_items > 0) {
+                _items--;
+                NSLog(@"%ld, ---- %@", _items, [NSThread currentThread]);
+            } else {
+                break;
+            }
+        }
+    }
+    NSLog(@"结束了   %@", [NSThread currentThread]);
+}
+```
+`GCD`的信号量也可以起到这种作用
+```cpp
+_sem = dispatch_semaphore_create(1);
+
+- (void)buy {
+    while (true) {
+        dispatch_semaphore_wait(_sem, DISPATCH_TIME_FOREVER);
+        if (_items > 0) {
+            _items--;
+            NSLog(@"%ld, ---- %@", _items, [NSThread currentThread]);
+            dispatch_semaphore_signal(_sem);
+        } else {
+            dispatch_semaphore_signal(_sem);
+            break;
+        }
+    }
+    NSLog(@"结束了   %@", [NSThread currentThread]);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSLog(@"主线程回调");
+    });
+}
+```
+# 总结
+总结一下多线程带来的问题大概有内存问题, 线程安全问题, 线程同步问题, 以及可能会遇到的资源释放问题, 对应的解决办法即合理控制队列数量, 使用线程安全的对象, 必要时使用线程锁, 这目前还只是理论篇, 关键还是要放到应用中去使用。

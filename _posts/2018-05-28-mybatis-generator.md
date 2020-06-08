@@ -1,5 +1,5 @@
 ---
-title: 使用Maven完成Mybatis的逆向工程
+title: Mybatis逆向工程
 tags: [Maven, Intellij IDEA]
 date: 2018-05-28
 ---
