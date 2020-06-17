@@ -57,3 +57,15 @@ xcode排序错乱问题 https://www.jianshu.com/p/d3827b515e15
 autoreleasepool 一般用于产生临时变量很多的位置, 比如sdwebimage的磁盘读取缓存, 他本身要做从nsdata到uiimage的转换
 
 https://logoly.pro/#/
+
+https://tech.glowing.com/
+
+// webpack bootstrap
+https://stevenwestmoreland.com/2018/01/how-to-include-bootstrap-in-your-project-with-webpack.html
+
+// eclipse to intellij idea
+https://www.cnblogs.com/ceshi2016/p/7890809.html
+解决控制台乱码问题(运行tomcat时，控制台乱码)
+https://blog.csdn.net/u012611878/article/details/80723491
+tomcat 热部署
+https://www.jianshu.com/p/038700295d02
