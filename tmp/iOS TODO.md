@@ -69,3 +69,13 @@ https://www.cnblogs.com/ceshi2016/p/7890809.html
 https://blog.csdn.net/u012611878/article/details/80723491
 tomcat 热部署
 https://www.jianshu.com/p/038700295d02
+
+jsp 中有vue 页面加载时 会挤在一起 解决方式:
+<style>
+    [v-cloak] {
+        display: none;
+    }
+</style>
+<div class="page" id="app" v-cloak>
+
+ie 11 不支持promise
