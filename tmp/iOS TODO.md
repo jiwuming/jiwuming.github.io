@@ -79,3 +79,13 @@ jsp 中有vue 页面加载时 会挤在一起 解决方式:
 <div class="page" id="app" v-cloak>
 
 ie 11 不支持promise
+
+
+framework 制作
+必须使用纯语言 不可混编 即使能引入两种语言但是无法架起桥接文件
+oc项目使用swift framework要添加桥接文件 即新建一个swift file 然后根据提示添加即可 不然会报100个错误(真 100)
+如果Mach -O type 不是 static 打出来的framework进到工程里面引用会报dyld: Library not loaded:错误
+swift项目制作的framework会把pod中内容也打进去，包比较大，oc制作的framework不会把pod中的内容打进去，包比较小，依赖需要在使用framework中的项目中安装。
+
+iOS 打包framework
+http://noxchen.com/2020/07/09/Cocoapods%E6%89%93%E5%8C%85Framework/
