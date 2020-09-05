@@ -89,3 +89,60 @@ swift项目制作的framework会把pod中内容也打进去，包比较大，oc�
 
 iOS 打包framework
 http://noxchen.com/2020/07/09/Cocoapods%E6%89%93%E5%8C%85Framework/
+
+动态库和静态库的区别:
+
+编译时不连接,动态库在main之前被加载, 过多的动态库会使启动过程变慢,动态库体积小,不绑定程序(理论上说动态库只存在一份)
+静态库在编译的时候被连接,静态库体积大,多个程序中会有多个静态库
+
+
+cocoapods 具体制作过程
+pod lib create GQEnergie 创建项目按需求选择条件
+What platform do you want to use?? [ iOS / macOS ]
+ >         
+ios
+What language do you want to use?? [ Swift / ObjC ]
+ > ObjC
+
+Would you like to include a demo application with your library? [ Yes / No ]
+ > 
+yes
+Which testing frameworks will you use? [ Specta / Kiwi / None ]
+ > None
+
+Would you like to do view based testing? [ Yes / No ]
+ > 
+yes
+What is your class prefix?
+ > GQ
+
+Running pod install on your new library.
+
+工程建好之后把.podspec所在的同名文件夹引入到工程中, 在class中编写代码, 并提交到同名的github仓库, 打一个和.podspec中版本号相同的tag
+
+pod trunk me 检查登录人员
+
+pod trunk register 你的邮箱 '用户名' --description='描述内容' （邮箱参数是必须的，用户名和--description参数可省略）
+
+pod spec lint GQEnergie.podspec --verbose 检查pod是否有错误
+
+[!] The spec did not pass validation, due to 1 warning (but you can use `--allow-warnings` to ignore it).
+
+可以使用 pod spec lint GQEnergie.podspec --verbose --allow-warnings 跳过一些警告
+
+pod trunk push GQEnergie.podspec --allow-warnings 发布项目
+
+--------------------------------------------------------------------------------
+ 🎉  Congrats
+
+ 🚀  GQEnergie (0.1.0) successfully published
+ 📅  August 19th, 23:31
+ 🌎  https://cocoapods.org/pods/GQEnergie
+ 👍  Tell your friends!
+--------------------------------------------------------------------------------
+
+发布成功了
+
+私有项目发布到gitlab上面 同样需要打tag然后在其他项目中引用的时候需要像这样
+pod 'UTest', :git=>'http://106.15.88.88/gaoqi/UTest.git'
+
