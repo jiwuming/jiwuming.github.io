@@ -146,3 +146,28 @@ pod trunk push GQEnergie.podspec --allow-warnings 发布项目
 私有项目发布到gitlab上面 同样需要打tag然后在其他项目中引用的时候需要像这样
 pod 'UTest', :git=>'http://106.15.88.88/gaoqi/UTest.git'
 
+
+// 参数签名原理
+https://blog.csdn.net/qq_15901351/article/details/80175169
+
+RSA 加密原理
+1. 首先找到两个质数 p q
+2. 求出两个数字的乘积 n = p * q
+3. 通过欧拉函数得到 f(n) = (p - 1)(q - 1)
+4. 找出公钥和私钥 
+    公钥 e 是 1 < e < f(n) 并且 e 与 f(n) 互质
+    私钥 d 是 e * d / f(n) 的余数为1
+5. 明文 m 加密实现
+    m 的 e 次幂 / n 的余数 c 即为密文
+6. 密文c的解密实现
+    c 的 d 次幂 / n 的余数 即可还原明文 m
+
+// iOS 触摸事件如何被runloop处理
+https://www.jianshu.com/p/d547e5393373
+
+// 手动取消kvo
+https://www.jianshu.com/p/8b600bcf605e
+
+// 面试题
+https://github.com/colourful987/bytedance-alibaba-interview
+
