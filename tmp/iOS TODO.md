@@ -193,3 +193,135 @@ ok 现在联系上atomic，如果用@property(atomic)NSArray *array 修饰之后
 首先第一点，你要记住，@property(atomic)NSArray *array 其实修饰的是这个指针，也就是这个8字节内存，跟第二部分数据n字节没有任何关系，被atomic 修饰之后，你不可能随意去多线程操作这个8字节，但是对8字节里面所指向的n字节没有任何限制！这就是所有网络上所说的 atomic 不安全的真相 ！！！
 
 我们来看一下，这能怪atomic？ 本身你修饰的是一个指针，并且atomic 已经完美的履行了它的指责，你现在不可能对这个8字节进行无序的多线程操作，这就够了呀！atomic没有任何鸟问题。有问题的是人，你本身并未对n字节做任何的限制，所以把问题怪罪到atomic 上真的是很不合理
+
+私有项目发布到gitlab上面 同样需要打tag然后在其他项目中引用的时候需要像这样
+pod 'UTest', :git=>'http://106.15.88.88/gaoqi/UTest.git'
+
+
+// 参数签名原理
+https://blog.csdn.net/qq_15901351/article/details/80175169
+
+RSA 加密原理
+1. 首先找到两个质数 p q
+2. 求出两个数字的乘积 n = p * q
+3. 通过欧拉函数得到 f(n) = (p - 1)(q - 1)
+4. 找出公钥和私钥 
+    公钥 e 是 1 < e < f(n) 并且 e 与 f(n) 互质
+    私钥 d 是 e * d / f(n) 的余数为1
+5. 明文 m 加密实现
+    m 的 e 次幂 / n 的余数 c 即为密文
+6. 密文c的解密实现
+    c 的 d 次幂 / n 的余数 即可还原明文 m
+
+// iOS 触摸事件如何被runloop处理
+https://www.jianshu.com/p/d547e5393373
+
+// 手动取消kvo
+https://www.jianshu.com/p/8b600bcf605e
+
+// 面试题
+https://github.com/colourful987/bytedance-alibaba-interview
+
+// 符号表
+<起始地址> <结束地址> <函数> [<文件名>:<行号>]
+https://www.jianshu.com/p/a30dac2328cb
+
+
+# 赛马算法
+
+https://zhuanlan.zhihu.com/p/103572219
+
+# 七层http模型和五层tcp/ip
+
+http:      
+* 应用层            
+* 表达层
+* 会话层
+* 网络层
+* 传输层
+* 数据链路层
+* 物理层
+
+tcp/ip
+* 应用层
+* 网络层
+* 传输层
+* 数据链路层
+* 物理层
+
+# https实现过程
+
+1. 首先客户端需要去服务端请求RSA的公钥
+2. 服务端返回公钥，客户端验证其有效性，如果是有效的，继续下一步，如果无效则警告
+3. 客户端生成一个随机AES秘钥，并用公钥加密，传输给服务端
+4. 服务端接受到加密的秘钥之后用RSA私钥解密，得到客户端的AES秘钥
+5. 服务端用AES秘钥加密内容传输给客户端
+6. 客户端用生成的AES秘钥解密内容
+
+# 请求头：
+
+Accept，Content-Type，Orgin，Content-Length，Cookie，User-Agent
+
+# 响应头
+
+Access-Control-Allow-Origin，Content-Encoding，Content-Length，Content-Type，Status
+
+# 腾讯
+
+## 自我介绍
+## mrc和arc
+
+* MRC Mannul Reference Counting 手动引用计数
+1. 每当一个对象创建时，引用计数为1
+2. 当这个对象被其他指针引用时，引用计数加1
+3. 当其他指针不在引用这个对象时，引用计数减1
+4. 当引用计数为0的时候，对象释放（最后在dealloc中再释放一次即为0）
+5. 原则：谁创建，谁释放，谁引用，谁管理
+
+* ARC Auto Reference Counting 自动引用计数
+1. 编译器会在编辑及运行的过程中手动的插入`retain`，`release`，`autorelease`
+2. mrc与arc共存：mrc下使用 `-fobjc-arc`，arc下使用`-fno-objc-arc`
+
+## 内存五大区域
+1. 栈区
+
+创建临时变量时由编译器自动分配，在不需要的时候自动清除的变量存储区，内存分配时连续的。
+
+2. 堆区
+
+由程序员手动管理的内存区域，如果不释放，在程序结束时由系统回收
+
+3. 全局区
+
+全局变量和静态变量时放在一块的，初始化的在同一块区域，未初始化的在另一块区域，
+
+4. 常量区
+
+常量，不允许被修改，比如常量字符串
+
+5. 代码段
+
+存放函数体的二进制代码
+
+## 自动释放池
+MRC中使用 `autorelease` 方法及 `NSAutoReleasePool` 
+
+ARC中使用 `@autorelease` 
+
+`autorelease` 是为了更好的管理内存，当我们希望一个对象在将来的某一个时刻释放（这个时刻由系统确定）时可以是用 `- autorelease` 方法或 `@autorelease{}`
+
+![](./autorelease.jpg)
+
+- AutoreleasePool并没有单独的结构，而是由若干个AutoreleasePoolPage以双向链表的形式组合而成（分别对应结构中的parent指针和child指针）
+- AutoreleasePool是按线程一一对应的（结构中的thread指针指向当前线程）
+- AutoreleasePoolPage每个对象会开辟4096字节内存（也就是虚拟内存一页的大小），除了上面的实例变量所占空间，剩下的空间全部用来储存autorelease对象的地址
+- 上面的id *next指针作为游标指向栈顶最新add进来的autorelease对象的下一个位置
+- 一个AutoreleasePoolPage的空间被占满时，会新建一个AutoreleasePoolPage对象，连接链表，后来的autorelease对象在新的page加入
+
+
+// 撤销commit
+https://www.cnblogs.com/lfxiao/p/9378763.html
+
+
+// git rebase
+https://www.jianshu.com/p/6960811ac89c
