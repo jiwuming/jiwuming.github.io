@@ -110,4 +110,4 @@ struct objc_class {
 
 > 运行时可以添加但的在类被创建但还没有向`runtime`注册之前`objc_allocateClassPair` - `objc_registerClassPair`区间内
 
-# 11.
+# 11.测试
