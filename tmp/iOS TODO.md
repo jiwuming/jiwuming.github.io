@@ -359,7 +359,16 @@ hybird app 离线包解决方案
 https://github.com/mcuking/blog/issues/63
 http://nanhuacoder.top/2019/04/11/iOS-WKWebView02/
 
+wkwebview 通过loadrequest加载的post请求会丢失body字段, 这个可以通过把body中的字段放入header中解决, header不会丢掉
+
 iOS 本地服务器
 https://juejin.cn/post/6844903492537024525
 
-需要整理知乎上的内容
+intrinsic size placeholder xib 用内容撑开布局
+在约束面板最下面 设置 intrinsic 属性为 placeholder
+https://stackoverflow.com/questions/19677142/what-is-the-difference-of-intrinsic-size-vs-system-width-height-constraints
+
+
+需要整理知乎, github上的内容
+
+
