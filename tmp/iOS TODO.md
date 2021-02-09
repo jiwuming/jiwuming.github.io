@@ -369,6 +369,15 @@ intrinsic size placeholder xib 用内容撑开布局
 https://stackoverflow.com/questions/19677142/what-is-the-difference-of-intrinsic-size-vs-system-width-height-constraints
 
 
+路由设计模式
+
+模块(module)
+逻辑(handler)
+事件(event)
+对象工厂(objectProvider)
+数据工厂(dataProvider需要考虑数据变化之后发送通知)
+
+
 需要整理知乎, github上的内容
 
 
