@@ -387,10 +387,10 @@ https://github.com/yuansirios/iOS-Learning-Collection/tree/master/04
 https://github.com/AlloyTeam/Mars
 移动端font-family https://github.com/AlloyTeam/Mars/blob/master/solutions/font-family.md
 
+vw适配 mobile.width = 750px  => 750px = 100% =100vw => 750px = 100vw => 1px = 0.1333vw => 100px = 13.33vw => 1rem =100px;
 
-
-
-
+iOS 启动速度优 二进制重拍
+https://juejin.cn/post/6844904168201666574
 
 
 
