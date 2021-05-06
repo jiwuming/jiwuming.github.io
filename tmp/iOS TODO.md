@@ -352,6 +352,7 @@ atomic和noatomic
 
 
 jsdelivr 加速github 仓库可以当图床用
+github 镜像 hub.fastgit.org
 
 浏览器校验公钥有效性 https://www.v2ex.com/t/411144
 
