@@ -412,3 +412,15 @@ vue白屏优化
 uniapp为什么能支持多平台小程序
 
 项目实例
+
+
+Git reabse
+
+git checkout master
+git pull
+git checkout local
+git rebase -i HEAD~2  //合并提交 --- 2表示合并两个
+git rebase master---->解决冲突--->git rebase --continue
+git checkout master
+git merge local
+git push
