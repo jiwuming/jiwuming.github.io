@@ -13,14 +13,15 @@ date: 2021-01-12
 图形结构
 
 # big O
+大O表示法各种数据结构的时间复杂度[https://www.bigocheatsheet.com/](https://www.bigocheatsheet.com/)
 最坏情况下（只关心n为无穷大时）复杂度的上限，复杂情况（越往下越复杂）
 - O(1)
-- O(log(n))
+- O(log2n) 比如log2x的意思就是求x是2的多少次幂.
 - O(n)
-- O(nlog(n))
+- O(nlog2n)
 - O(n²)
 - O(n³)
-- O(n的b次幂，b>1)
+- O(2的b次幂，b>1)
 - O(n!)
 
 由于只关心n最大情况，所以以一个函数最大的那一部分来确定big O，比如
@@ -31,61 +32,47 @@ O(cn) = O(n), c > 0
 f(n) = 7log(n)³ + 15n² + 2n³ + 8 => O(f(n)) = O(n³)
 ```
 
-## O(1)
-```go
-a := 1
-b := 2
-c := a + 5 * b
+简化累加时间复杂度
+```js
+function sum(n) {
+    var k = 0
+    for(var i = 0; i <= n; i++) {
+        k = k + i
+    }
+    console.log(k)
+}
+console.log("时间复杂度O(n)求和")
+sum(10)
 
-i := 0
-While i < n Do
-    i = i + 1
-f(n) = n
-O(f(n)) = O(n)
-
-i := 0
-While i < n Do
-    i = i + 3
-f(n) = n / 3
-O(f(n)) = O(n)
+function sum2(n) {
+    // 本来有一个最大数，前后相加凑成最大数，在用最大数乘以这几组求和，中间数剩余的相当于（0.5 * 最大数）。
+    console.log(n * (n + 1) / 2)
+}
+console.log("时间复杂度O(1)求和")
+sum2(10)
 ```
 
-## O(n²)
-```go
-For(i := 0; i < n; i++) {
-    For(j := 0; j < n; j++) {
-        ...
+看一个算法的时间复杂度主要是看循环次数（加减改变循环次数的忽略不计，乘除改变循环次数的是log乘数/除数n）。
+```c
+// O(n)
+void func(int n) {
+    int i = 1; k = 100;
+    while(i < n) {
+        k++;
+        i+=2
     }
 }
-// 双循环，外圈n从第一个数字开始起内圈就要执行n次，那n个数字所要执行的次数就是n * n也就是n方
-f(n) = n * n = n²，O(f(n)) = O(n²)
 
-For(i := 0; i < n; i++) {
-    For(j := i; j < n; j++) {
-        ...
+// 0(log2n)
+void func(int n) {
+    int i = 1;
+    while(i <= n) {
+        i = i * 2;
     }
 }
-// 首先，内圈执行次数
-n + (n - 1) + (n - 2) + (n - 3) ... 3 + 2 + 1
-// 有n个上述次数，可以以一个数字带入比如10，也就是10 + 9 + 8 ... + 2 + 1 + 0
-n * (n + 1) / 2
-// 简化之后
-O(n * (n + 1) / 2) => O(n² / 2 + n / 2) = O(n²) 
-
-i := 0
-While i < n Do
-    j = 0
-    While j < 3 * n Do
-        j = j + 1
-    j = 0
-    While j < 2 * n Do
-        j = j + 1
-    i = i + 1
-
-// 最外层执行了n遍，第一层j执行了3n遍，第二层j执行了2n遍
-f(n) = n * (3n + 2n) = 5n²
-O(f(n)) = O(n²)
 ```
+# 线性表
+
 
 # 静态数组和动态数组
 数组总要特性：内存连续
