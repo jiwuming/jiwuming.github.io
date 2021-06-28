@@ -424,3 +424,56 @@ git rebase master---->解决冲突--->git rebase --continue
 git checkout master
 git merge local
 git push
+
+
+
+
+移动端 H5 相关问题汇总：
+1px 问题
+响应式布局
+iOS 滑动不流畅
+iOS 上拉边界下拉出现白色空白
+页面件放大或缩小不确定性行为
+click 点击穿透与延迟
+软键盘弹出将页面顶起来、收起未回落问题
+iPhone X 底部栏适配问题
+保存页面为图片和二维码问题和解决方案
+微信公众号 H5 分享问题
+H5 调用 SDK 相关问题及解决方案
+H5 调试相关方案与策略
+iOS 短信验证码重复输入问题
+rem vs vw 方案
+
+关于Hybrid App 开发相关问题：
+
+离线包 iframe 跨域解决方案
+jsBridge 通信机制
+
+
+
+
+
+
+整理前端一些常见的问题解决方案
+
+空白屏监控
+曝光上报
+bug 收集上报
+webpack 打包大小优化
+前端 http 缓存设置
+iframe 离线包解决方案
+
+
+
+
+
+手写实现各种方案、实践等
+
+
+手写 React：toy-react
+手写 Promise
+手写 bind
+手写 umi 框架
+手写 webpack
+手写 tapable
+手写 mvvm
