@@ -488,3 +488,7 @@ https://overreacted.io/zh-hans/
 
 react hooks 原理
 https://github.com/brickspert/blog/issues/26
+
+
+cocoapods 私有库,版本号,指定分支
+https://www.cnblogs.com/maybe-liu/p/8658347.html
