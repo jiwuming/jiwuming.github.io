@@ -492,3 +492,6 @@ https://github.com/brickspert/blog/issues/26
 
 cocoapods 私有库,版本号,指定分支
 https://www.cnblogs.com/maybe-liu/p/8658347.html
+
+iOS ANR
+https://blog.csdn.net/lfdanding/article/details/99710420
